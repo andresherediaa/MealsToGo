@@ -33,7 +33,7 @@ export const Section = styled.View`
 export const SectionEnd = styled.View`
   flex: 1;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: flex-end;
   align-items: center;
   padding-top: ${(props) => props.theme.space[2]};
   padding-bottom: ${(props) => props.theme.space[2]};

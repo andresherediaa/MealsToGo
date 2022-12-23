@@ -2,6 +2,7 @@ import React from "react";
 import Start from "../../../../assets/start";
 import Open from "../../../../assets/open";
 import { Text } from "../../../components/typography/text.component";
+import { Spacer } from "../../../components/spacer/spacer.component";
 import {
   RestaurantCard,
   RestaurantCardCover,
@@ -14,14 +15,14 @@ import {
 
 export const RestaurantInfoCard = ({ restaurant = {} }) => {
   const {
-    name = "Restaurant Pepito",
+    name = "Some Restaurant",
     icon = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
     photos = [
-      "https://cdn.vox-cdn.com/thumbor/HmsSKbk9Khv2MoO6j4rcqnWZVag=/0x0:5996x4003/620x465/filters:focal(1003x1633:1961x2591):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/59732085/2021_03_23_Merois_008.12.jpg",
+      "https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made-600x899.jpg",
     ],
-    address = "Some ramfom address",
+    address = "100 some random street",
     isOpenNow = true,
-    rating = 5,
+    rating = 4,
     isClosedTemporarily = true,
   } = restaurant;
 
@@ -40,7 +41,9 @@ export const RestaurantInfoCard = ({ restaurant = {} }) => {
           </Rating>
           <SectionEnd>
             {isClosedTemporarily && (
-              <Text variant="error">CLOSED TEMPORARILY</Text>
+              <Spacer $position="right" $size='medium'>
+                <Text variant="error">CLOSED TEMPORARILY</Text>
+              </Spacer>
             )}
             {isOpenNow && <Open width={20} height={20} />}
             <ImageContainer source={{ uri: icon }} />
