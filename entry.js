@@ -1,3 +1,4 @@
+import React from "react";
 import "expo/build/Expo.fx";
 import { Platform } from "react-native";
 import { registerRootComponent } from "expo";

@@ -41,7 +41,7 @@ export const RestaurantInfoCard = ({ restaurant = {} }) => {
           </Rating>
           <SectionEnd>
             {isClosedTemporarily && (
-              <Spacer $position="right" $size='medium'>
+              <Spacer $position="right" $size="medium">
                 <Text variant="error">CLOSED TEMPORARILY</Text>
               </Spacer>
             )}
