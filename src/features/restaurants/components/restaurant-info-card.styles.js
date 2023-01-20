@@ -4,7 +4,7 @@ import { View } from "react-native";
 
 export const RestaurantCard = styled(Card)`
   background-color: ${(props) => props.theme.colors.bg.primary};
-  margin-bottom: ${(props) => props.theme.space[2]}; ;
+  margin-bottom: ${(props) => props.theme.space[2]};
 `;
 
 export const RestaurantCardCover = styled(Card.Cover)`

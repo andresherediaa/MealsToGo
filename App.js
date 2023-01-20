@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./src/infrastructure/theme";
 import {
@@ -7,11 +7,15 @@ import {
 } from "@expo-google-fonts/oswald";
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { RestaurantContextProvider } from "./src/services/restaurants/restaurants.context";
-import { LocationContextProvider } from "./src/services/location/location.context";
 import { Navigation } from "./src/infrastructure/navigation";
+import { firebaseApp } from "./src/services/authentication/config";
+import { getAuth } from "firebase/auth";
+import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
 
-export default function App() {
+const auth = getAuth(firebaseApp);
+//init firebase
+
+const App = () => {
   let [latoLoaded] = useLato({
     Lato_400Regular,
   });
@@ -21,15 +25,14 @@ export default function App() {
   if (!oswaldLoaded || !latoLoaded) {
     return null;
   }
-
   const Tab = createBottomTabNavigator();
   return (
     <ThemeProvider theme={theme}>
-      <LocationContextProvider>
-        <RestaurantContextProvider>
-          <Navigation />
-        </RestaurantContextProvider>
-      </LocationContextProvider>
+      <AuthenticationContextProvider>
+        <Navigation />
+      </AuthenticationContextProvider>
     </ThemeProvider>
   );
-}
+};
+
+export default App;

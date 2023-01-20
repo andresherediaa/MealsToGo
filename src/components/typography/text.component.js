@@ -9,12 +9,26 @@ const defaultTextStyles = (theme) => `
   margin-bottom: 0px;
 `;
 
+const defaultSpacerStyles = (theme, size) => `
+  margin: ${size ? size + "px" : "0px"};
+`;
+
 const body = (theme) => `
     font-size: ${theme.fontSizes.body};
 `;
 
+const account = (theme) => `
+  font-size: ${theme.fontSizes.body};
+  color: ${theme.colors.text.inverse};
+`;
+
 const hint = (theme) => `
     font-size: ${theme.fontSizes.body};
+`;
+
+const title = (theme) => `
+    font-size: ${theme.fontSizes.title};
+    font-weight: ${theme.fontWeights.bold};
 `;
 
 const error = (theme) => `
@@ -38,6 +52,8 @@ const variants = {
   caption,
   error,
   hint,
+  account,
+  title,
 };
 
 export const Text = styled.Text`
@@ -48,3 +64,7 @@ export const Text = styled.Text`
 Text.defaultProps = {
   variant: "body",
 };
+
+export const Spacer = styled.View`
+  ${({ size, theme }) => defaultSpacerStyles(theme, size)}
+`;
