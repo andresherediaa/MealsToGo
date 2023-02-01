@@ -1,6 +1,9 @@
 import styled from "styled-components/native";
 import { ActivityIndicator } from "react-native";
 import { List, Avatar, Button } from "react-native-paper";
+import { Camera, CameraType } from "expo-camera";
+import { theme } from './../../../infrastructure/theme/index';
+import { colors } from './../../../infrastructure/theme/colors';
 
 export const SettingsContainer = styled.View`
   flex: 1;
@@ -45,4 +48,28 @@ export const AvatarContainer = styled.View`
 
 export const AvatarIcon = styled(Avatar.Icon)`
   margin-bottom: 10px;
+`;
+export const AvatarPhoto = styled(Avatar.Image)`
+  margin-bottom: 10px;
+`;
+
+//Camera Styles
+export const CameraContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+`;
+export const CameraFront = styled(Camera).attrs({
+  type: CameraType.front,
+})`
+  flex: 1;
+`;
+
+export const TouchCircle = styled.View`
+  width: 100px;
+  height: 100px;
+  border-radius: 50;
+  background-color: transparent;
+  border: ${(props) => props.theme.colors.brand.primary} solid 4px;
+  position: absolute;
+  bottom: 30px;
 `;

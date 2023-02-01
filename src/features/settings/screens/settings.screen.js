@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import {
@@ -7,21 +8,54 @@ import {
   ListContainer,
   SettingsItem,
   AvatarContainer,
-  AvatarIcon
+  AvatarIcon,
+  AvatarPhoto,
 } from "./../components/settings.styles";
 import { List } from "react-native-paper";
 import { Text } from "../../../components/typography/text.component";
+import { TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const SettingsScreen = ({navigation}) => {
+export const SettingsScreen = ({ navigation }) => {
   const { onLogout, isLoading, user } = useContext(AuthenticationContext);
+  const [photoUri, setPhotoUri] = useState(null);
 
+  const loadProfilePhoto = async (uid) => {
+    try {
+      const value = await AsyncStorage.getItem(`@photo-${uid}`);
+      if (value !== null) {
+        setPhotoUri(value);
+      }
+    } catch (e) {
+      console.log("error loading photo uri", e);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      loadProfilePhoto(user.uid);
+    }, [user])
+  );
   return (
     <SafeArea>
       <SettingsContainer>
-        <AvatarContainer>
-          <AvatarIcon size={150} icon="human" backgroundColor="#2182BD" />
-          <Text variant="label">{user.email}</Text>
-        </AvatarContainer>
+        <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
+          <AvatarContainer>
+            {!photoUri && (
+              <AvatarIcon size={180} icon="human" backgroundColor="#2182BD" />
+            )}
+            {photoUri && (
+              <AvatarPhoto
+                size={180}
+                source={{ uri: photoUri }}
+                backgroundColor="#2182BD"
+              />
+            )}
+
+            <Text variant="label">{user.email}</Text>
+          </AvatarContainer>
+        </TouchableOpacity>
+
         {isLoading ? (
           <Loading size="large" />
         ) : (

@@ -15,7 +15,6 @@ const SearchContainer = styled(View)`
 export const Search = () => {
   const { keyword, search, location } = useContext(LocationContext);
   const [searchKeyword, setSearchKeyword] = useState(keyword);
-  console.log("context++++", keyword, location);
 
   useEffect(() => {
     setSearchKeyword(keyword);

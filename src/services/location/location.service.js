@@ -1,14 +1,13 @@
-import { locations } from "./location.mock";
 import camelize from "camelize";
-
-export const locationRequest = (searchTerm) => {
-  return new Promise((resolve, reject) => {
-    const mockLocations = locations;
-    if (!mockLocations[searchTerm]) {
-      reject("City not found");
-    }
-    resolve(mockLocations[searchTerm]);
-  });
+import { GEOCODE } from "@env";
+export const locationRequest = async (searchTerm) => {
+  try {
+    const response = await fetch(`${GEOCODE}${searchTerm}`);
+    const jsonData = await response.json();
+    return jsonData;
+  } catch (error) {
+    return error;
+  }
 };
 
 export const locationTransform = (result) => {

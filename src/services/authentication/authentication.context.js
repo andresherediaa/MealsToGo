@@ -19,7 +19,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     if (user) {
       setUser(user);
     } else {
-      console.log("onAuthStateChanged NOT EREGISTERD", user);
+      console.log("onAuthStateChanged NOT REGISTERED", user);
     }
   });
 

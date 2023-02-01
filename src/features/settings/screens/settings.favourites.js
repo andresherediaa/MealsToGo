@@ -4,7 +4,7 @@ import { RestaurantList } from "../../restaurants/components/list-restaurant.com
 import { FavouritesContext } from "../../../services/favourites/favourites.context";
 import { TouchableOpacity } from "react-native";
 import { RestaurantInfoCard } from "../../restaurants/components/restaurant-info-card.component";
-export const SettingsFavourites = () => {
+export const SettingsFavourites = ({navigation}) => {
   const { favourites, loading } = useContext(FavouritesContext);
   return (
     <SafeArea>
