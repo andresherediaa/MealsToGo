@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ScrollView } from "react-native";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { RestaurantInfoCard } from "../components/restaurant-info-card.component";
 import { AccordionList } from "./../components/accordion-list.component";
 import styled from "styled-components/native";
+import { CartContext } from "../../../services/cart/cart.context";
+import { OrderSection } from "../components/restaurant-info-card.styles";
+import { OrderButton } from "./../components/restaurant-info-card.styles";
+import { CheckoutContext } from "./../../../services/checkout/checkout.context";
 
 const ScrollViewContainer = styled(ScrollView).attrs({
-  contentContainerStyle: { padding: 8, justifyConytent: 'flex-start'},
+  contentContainerStyle: { padding: 8, justifyConytent: "flex-start" },
 })``;
 
 export const RestaurantDetailedScreen = ({ navigation, route }) => {
   const { restaurant } = route.params;
+  const {
+    cart,
+    restaurant: restaurantCart,
+    addtoCart,
+    clearCart,
+  } = useContext(CartContext);
+  const { setOrderStatus, setError } = useContext(CheckoutContext);
   const categories = {
     Breakfast: {
       icon: "bread-slice",
@@ -47,6 +58,21 @@ export const RestaurantDetailedScreen = ({ navigation, route }) => {
           );
         })}
       </ScrollViewContainer>
+
+      <OrderSection>
+        <OrderButton
+          icon="cart-outline"
+          mode="contained"
+          onPress={() => {
+            addtoCart({ item: "Special offer", price: "1299" }, restaurant);
+            setOrderStatus("");
+            setError(null);
+            navigation.navigate("Checkout", { screen: "CheckoutScreen" });
+          }}
+        >
+          ORDER SPECIAL ONLY 12.99!
+        </OrderButton>
+      </OrderSection>
     </SafeArea>
   );
 };

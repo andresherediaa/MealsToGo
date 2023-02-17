@@ -1,10 +1,10 @@
 import camelize from "camelize";
-import { PLACES_NEARBY } from "@env";
-export const restaurantsRequest = async (
-  location = "37.7749295,-122.4194155"
-) => {
+import { host, isLocal } from "../../utils/env";
+export const restaurantsRequest = async (location) => {
   try {
-    const data = await fetch(`${PLACES_NEARBY}${location}`);
+    const data = await fetch(
+      `${host}/placesNearby?location=${location}&mock=${isLocal}`
+    );
     const restaurants = await data.json();
     return restaurants;
   } catch (error) {

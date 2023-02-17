@@ -7,21 +7,33 @@ import { Marker, Callout } from "react-native-maps";
 import { RestaurantContext } from "../../../services/restaurants/restaurants.context";
 import { LocationContext } from "../../../services/location/location.context";
 import { MapCallout } from "../components/map-callout.component";
+import { Text } from "../../../components/typography/text.component";
 
 const Map = styled(MapView)`
   height: 100%;
   width: 100%;
 `;
-export const MapScreen = ({ navigation, route }) => {
+
+const ErrorContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const RestaurantMap = ({ navigation }) => {
   const { restaurants = [] } = useContext(RestaurantContext);
-  const { location } = useContext(LocationContext);
-  const { lat, lng, viewport } = location;
   const [latDelta, setLatDelta] = useState(0);
+  const {
+    geometry: {
+      location: { lat, lng },
+      viewport,
+    },
+  } = restaurants[0];
   useEffect(() => {
     const northeastLat = viewport.northeast.lat;
     const southwestLat = viewport.southwest.lat;
     setLatDelta(northeastLat - southwestLat);
-  }, [location, viewport]);
+  }, [restaurants, viewport]);
 
   return (
     <SafeArea>
@@ -31,31 +43,49 @@ export const MapScreen = ({ navigation, route }) => {
           latitude: lat,
           longitude: lng,
           latitudeDelta: latDelta,
-          longitudeDelta: 0.02,
+          longitudeDelta: 0.06,
         }}
       >
-        {restaurants.map((restaurant) => {
-          const { lat, lng } = restaurant.geometry.location;
-          return (
-            <Marker
-              key={restaurant.placeId}
-              title={restaurant.name}
-              coordinate={{
-                latitude: restaurant.geometry.location.lat,
-                longitude: restaurant.geometry.location.lng,
-              }}
-            >
-              <Callout
-                onPress={() =>
-                  navigation.navigate("RestaurantDetailed", { restaurant })
-                }
+        {restaurants &&
+          restaurants.map((restaurant) => {
+            const { lat, lng } = restaurant.geometry.location;
+            return (
+              <Marker
+                key={restaurant.placeId}
+                title={restaurant.name}
+                coordinate={{
+                  latitude: lat,
+                  longitude: lng,
+                }}
               >
-                <MapCallout restaurant={restaurant} />
-              </Callout>
-            </Marker>
-          );
-        })}
+                <Callout
+                  onPress={() =>
+                    navigation.navigate("RestaurantDetailed", { restaurant })
+                  }
+                >
+                  <MapCallout restaurant={restaurant} />
+                </Callout>
+              </Marker>
+            );
+          })}
       </Map>
     </SafeArea>
   );
+};
+
+export const MapScreen = ({ navigation }) => {
+  const { location } = useContext(LocationContext);
+  const { restaurants } = useContext(RestaurantContext);
+
+  if (!location || !restaurants.length) {
+    return (
+      <Map
+        region={{
+          latitude: 0,
+          longitude: 0,
+        }}
+      />
+    );
+  }
+  return <RestaurantMap navigation={navigation} />;
 };

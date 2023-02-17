@@ -59,7 +59,6 @@ export const AuthenticationContextProvider = ({ children }) => {
       .then(() => {
         setUser(null);
         setLoading(false);
-        console.log("logout sucessfully");
       })
       .catch((err) => {
         setLoading(false);

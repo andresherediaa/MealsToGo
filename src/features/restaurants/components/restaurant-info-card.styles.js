@@ -1,6 +1,7 @@
 import styled from "styled-components/native";
-import { Card } from "react-native-paper";
+import { Button, Card } from "react-native-paper";
 import { View } from "react-native";
+import { colors } from "../../../infrastructure/theme/colors";
 
 export const RestaurantCard = styled(Card)`
   background-color: ${(props) => props.theme.colors.bg.primary};
@@ -43,4 +44,20 @@ export const ImageContainer = styled.Image`
   width: 15px;
   height: 15px;
   margin-left: 10px;
+`;
+
+export const OrderSection = styled.View`
+  margin: 9% auto 3%;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+`;
+
+export const OrderButton = styled(Button).attrs({
+  buttonColor: colors.brand.primary,
+  textColor: colors.text.inverse,
+})`
+  width: 80%;
+  padding: 3px 2px;
+  border-radius: 0;
 `;
